@@ -3,24 +3,22 @@ pipeline {
   stages {
     stage('Back-end') {
       agent {
-        docker { image 'maven:3.8.1-adoptopenjdk-11' }
+        docker { image 'maven:3.8.1-openjdk-11' }
       }
       steps {
-        // Print Maven version
         sh 'mvn --version'
+        sh 'java -version'
 
-        // Create a simple HelloWorld.java file
+        // Write HelloWorld.java safely
         sh '''
-          cat > HelloWorld.java <<EOF
-          public class HelloWorld {
+          echo 'public class HelloWorld {
               public static void main(String[] args) {
                   System.out.println("Hello World from Java!");
               }
-          }
-          EOF
+          }' > HelloWorld.java
         '''
 
-        // Compile and run the Java program
+        // Compile and run
         sh 'javac HelloWorld.java'
         sh 'java HelloWorld'
       }
@@ -28,20 +26,15 @@ pipeline {
 
     stage('Front-end') {
       agent {
-        docker { image 'node:16-alpine' }
+        docker { image 'node:16' }
       }
       steps {
-        // Print Node version
         sh 'node --version'
 
-        // Create a simple hello.js file
-        sh '''
-          cat > hello.js <<EOF
-          console.log("Hello World from Node.js!");
-          EOF
-        '''
+        // Write hello.js safely
+        sh 'echo "console.log(\\"Hello World from Node.js!\\");" > hello.js'
 
-        // Run the Node.js program
+        // Run
         sh 'node hello.js'
       }
     }
