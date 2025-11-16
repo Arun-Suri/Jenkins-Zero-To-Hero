@@ -1,0 +1,50 @@
+buntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/backend$ ls
+HelloWorld.java  pom.xml
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/backend$ cd ..
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ ls
+Jenkinsfile  backend  frontend
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ cd frontend
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ ls
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ vim hello.js
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ vim package.json
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ cd ..
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ ls
+Jenkinsfile  backend  frontend
+ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ vim Jenkinsfile
+pipeline {
+  agent none
+
+  stages {
+    stage('Build Java App') {
+      agent {
+        docker {
+          image 'maven:3.8.1-openjdk-11'
+          args '-v /root/.m2:/root/.m2' // Optional: cache Maven dependencies
+        }
+      }
+      steps {
+        dir('backend') {
+          sh 'mvn --version'
+          sh 'javac HelloWorld.java'
+          sh 'java HelloWorld'
+        }
+      }
+    }
+
+    stage('Run Node.js App') {
+      agent {
+        docker {
+          image 'node:16'
+        }
+      }
+      steps {
+        dir('frontend') {
+          sh 'node --version'
+          sh 'npm install'
+          sh 'npm start'
+        }
+      }
+    }
+  }
+}
+
