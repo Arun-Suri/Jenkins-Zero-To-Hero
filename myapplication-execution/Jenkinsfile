@@ -6,13 +6,15 @@ pipeline {
       agent {
         docker {
           image 'maven:3.8.1-openjdk-11'
-          args '-v /root/.m2:/root/.m2'
+          args '-v /root/.m2:/root/.m2' // cache Maven dependencies
         }
       }
       steps {
         dir('myapplication-execution/backend') {
+          // Compile the Java code
           sh 'mvn clean compile'
-          sh 'mvn exec:java -Dexec.mainClass=HelloWorld'
+          // Run HelloWorld directly from compiled classes
+          sh 'java -cp target/classes HelloWorld'
         }
       }
     }
@@ -25,7 +27,7 @@ pipeline {
       }
       steps {
         dir('myapplication-execution/frontend') {
-          sh 'npm ci'
+          sh 'npm ci'   // clean install for CI
           sh 'node hello.js'
         }
       }
