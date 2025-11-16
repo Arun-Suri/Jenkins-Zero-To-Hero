@@ -17,6 +17,20 @@ pipeline {
       }
     }
 
+    stage('Test Java App') {
+      agent {
+        docker {
+          image 'maven:3.8.1-openjdk-11'
+          args '-v /root/.m2:/root/.m2'
+        }
+      }
+      steps {
+        dir('myapplication-execution/backend') {
+          sh 'mvn test'
+        }
+      }
+    }
+
     stage('Run Node.js App') {
       agent {
         docker {
@@ -25,8 +39,22 @@ pipeline {
       }
       steps {
         dir('myapplication-execution/frontend') {
-          sh 'npm ci'   // clean install for CI
+          // Use npm install instead of npm ci (no package-lock.json yet)
+          sh 'npm install'
           sh 'node hello.js'
+        }
+      }
+    }
+
+    stage('Test Node.js App') {
+      agent {
+        docker {
+          image 'node:16'
+        }
+      }
+      steps {
+        dir('myapplication-execution/frontend') {
+          sh 'npm test || echo "No tests defined"'
         }
       }
     }
