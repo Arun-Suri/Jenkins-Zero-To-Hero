@@ -6,7 +6,7 @@ pipeline {
       agent {
         docker {
           image 'maven:3.8.1-openjdk-11'
-          args '-v /root/.m2:/root/.m2' // cache Maven dependencies
+          args '-v /root/.m2:/root/.m2' // Cache Maven dependencies
         }
       }
       steps {
@@ -25,10 +25,22 @@ pipeline {
       }
       steps {
         dir('frontend') {
-          sh 'npm install'
+          sh 'npm ci' // Faster and more reliable than npm install for CI
           sh 'node hello.js'
         }
       }
+    }
+  }
+
+  post {
+    always {
+      echo 'Pipeline execution completed.'
+    }
+    success {
+      echo 'Build and run stages completed successfully!'
+    }
+    failure {
+      echo 'Pipeline failed. Check logs for details.'
     }
   }
 }
