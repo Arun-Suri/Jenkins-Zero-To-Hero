@@ -1,16 +1,3 @@
-buntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/backend$ ls
-HelloWorld.java  pom.xml
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/backend$ cd ..
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ ls
-Jenkinsfile  backend  frontend
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ cd frontend
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ ls
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ vim hello.js
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ vim package.json
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution/frontend$ cd ..
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ ls
-Jenkinsfile  backend  frontend
-ubuntu@ip-172-31-29-22:~/Jenkins-Zero-To-Hero/myapplication-execution$ vim Jenkinsfile
 pipeline {
   agent none
 
