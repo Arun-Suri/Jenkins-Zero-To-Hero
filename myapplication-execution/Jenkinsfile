@@ -6,14 +6,13 @@ pipeline {
       agent {
         docker {
           image 'maven:3.8.1-openjdk-11'
-          args '-v /root/.m2:/root/.m2' // Optional: cache Maven dependencies
+          args '-v /root/.m2:/root/.m2' // cache Maven dependencies
         }
       }
       steps {
         dir('backend') {
-          sh 'mvn --version'
-          sh 'javac HelloWorld.java'
-          sh 'java HelloWorld'
+          sh 'mvn clean compile'
+          sh 'mvn exec:java -Dexec.mainClass=HelloWorld'
         }
       }
     }
@@ -26,12 +25,10 @@ pipeline {
       }
       steps {
         dir('frontend') {
-          sh 'node --version'
           sh 'npm install'
-          sh 'npm start'
+          sh 'node hello.js'
         }
       }
     }
   }
 }
-
