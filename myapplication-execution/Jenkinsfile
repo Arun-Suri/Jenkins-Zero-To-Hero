@@ -6,11 +6,11 @@ pipeline {
       agent {
         docker {
           image 'maven:3.8.1-openjdk-11'
-          args '-v /root/.m2:/root/.m2' // Cache Maven dependencies
+          args '-v /root/.m2:/root/.m2'
         }
       }
       steps {
-        dir('backend') {
+        dir('myapplication-execution/backend') {
           sh 'mvn clean compile'
           sh 'mvn exec:java -Dexec.mainClass=HelloWorld'
         }
@@ -24,8 +24,8 @@ pipeline {
         }
       }
       steps {
-        dir('frontend') {
-          sh 'npm ci' // Faster and more reliable than npm install for CI
+        dir('myapplication-execution/frontend') {
+          sh 'npm ci'
           sh 'node hello.js'
         }
       }
