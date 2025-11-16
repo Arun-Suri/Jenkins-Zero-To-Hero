@@ -2,7 +2,7 @@ pipeline {
   agent none
 
   stages {
-    stage('Build Java App') {
+    stage('Build & Run Java App') {
       agent {
         docker {
           image 'maven:3.8.1-openjdk-11'
@@ -11,10 +11,8 @@ pipeline {
       }
       steps {
         dir('myapplication-execution/backend') {
-          // Compile the Java code
-          sh 'mvn clean compile'
-          // Run HelloWorld directly from compiled classes
-          sh 'java -cp target/classes HelloWorld'
+          // Compile and run HelloWorld using exec-maven-plugin
+          sh 'mvn clean compile exec:java'
         }
       }
     }
