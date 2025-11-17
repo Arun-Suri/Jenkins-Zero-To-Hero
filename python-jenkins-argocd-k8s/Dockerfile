@@ -6,7 +6,7 @@ WORKDIR /app
 # Install distutils (needed for Django)
 RUN apt-get update && apt-get install -y python3-distutils
 
-# Install Django (and optionally setuptools for safety)
+# Install Django (and setuptools for safety)
 RUN pip install setuptools django==3.2
 
 # Copy project files
